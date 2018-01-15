@@ -31,6 +31,10 @@ section.filters > button:hover {
     padding-left: 50px;
 }
 
+.input[type=checkbox] {
+    padding-right: 10px;
+}
+
 .locations {
     border-right: 1px solid #DDDDDD;
 }
