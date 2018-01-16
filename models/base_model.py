@@ -63,6 +63,8 @@ class BaseModel:
             new_dict.pop('_password', None)
         new_dict["__class__"] = self.__class__.__name__
         new_dict.pop('_sa_instance_state', None)
+        new_dict.pop('amenities', None)
+        new_dict.pop('reviews', None)
         if not save_to_disk:
             new_dict.pop('password', None)
         return new_dict
