@@ -1,10 +1,9 @@
 let amenitiesChecked = [];
 $(() => {
-  $("input[type=checkbox]").click((e) => {
-    console.log(this);
-    let index = amenitiesChecked.indexOf($(this).data('id'));
-    if ($(this).checked) {
-      amenitiesChecked.push($(this).data('id'));
+  $("input[type=checkbox]").click(function () {
+    let index = amenitiesChecked.indexOf(this.dataset.id);
+    if (this.checked) {
+      amenitiesChecked.push(this.dataset.id);
     }
     else {
       if (index !== -1) {
