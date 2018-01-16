@@ -1,17 +1,12 @@
-let amenitiesChecked = [];
+let amenitiesChecked = {};
 $(() => {
   $("input[type=checkbox]").click(function () {
-    let index = amenitiesChecked.indexOf(this.dataset.id);
     if (this.checked) {
-      amenitiesChecked.push(this.dataset.id);
+      amenitiesChecked[this.dataset.id] = this.dataset.name;
     }
     else {
-      if (index !== -1) {
-	amenitiesChecked.splice(index, 1);
-      }
-      else {
-	console.log("Corrupted amenties checked array");
-      }
+      delete amenitiesChecked[this.dataset.id];
     }
+    $('.amenities h4').text(Object.values(amenitiesChecked).join(', '));
   });
 });

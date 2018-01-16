@@ -29,6 +29,8 @@ section.filters > button:hover {
     height: 100%;
     width: 25%;
     padding-left: 50px;
+    box-sizing: border-box;
+    position: relative;
 }
 
 input[type=checkbox] {
@@ -47,20 +49,25 @@ input[type=checkbox] {
     font-weight: 400;
     font-size: 14px;
     margin: 0 0 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .popover {
     display: none;
-    position: relative;
-    left: -51px;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    margin-top: 0;
     background-color: #FAFAFA;
     width: 100%;
     max-height: 300px;
     border: 1px solid #DDDDDD;
     border-radius: 4px;
+    box-sizing: border-box;
     z-index: 1;
     padding: 30px 50px 30px 0;
-    margin-top: 17px;
     overflow: scroll;
 }
 
