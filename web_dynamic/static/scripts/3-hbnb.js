@@ -93,7 +93,7 @@ $(() => {
 	      .html(content);
 	    userDiv.append(ownerP);
 
-	    article.append(userDiv);
+	    numberBathroomsDiv.after(userDiv);
 	  });
 
 	const descriptionDiv = $(document.createElement('div'))
