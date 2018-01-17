@@ -33,7 +33,6 @@ $(() => {
   $('button').click(function (e) {
     reqObj = {};
     reqObj.amenities = Object.keys(amenitiesChecked);
-    console.log(JSON.stringify(reqObj));
     $.ajax({
       url: "http://0.0.0.0:5051/api/v1/places_search/",
       type: "POST",
