@@ -24,7 +24,7 @@ $(() => {
   $.ajax({
     url: "http://0.0.0.0:5051/api/v1/places_search/",
     type: "POST",
-    data: {},
+    data: JSON.stringify({}),
     contentType: 'application/json',
     dataType: 'json'
   })
