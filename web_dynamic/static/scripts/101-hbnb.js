@@ -148,14 +148,14 @@ $(() => {
       article.append(descriptionDiv);
 
       const placeId = place.id;
+      const amenitiesDiv = $(document.createElement('div'))
+        .addClass('amenities');
       $.ajax({
 	url: `http://0.0.0.0:5051/api/v1/places/${placeId}/amenities`,
 	type: 'GET',
 	dataType: 'json'
       })
 	.done(function(data) {
-	  const amenitiesDiv = $(document.createElement('div'))
-            .addClass('amenities');
 	  const amenitiesTitleH2 = $(document.createElement('h2'))
             .text("Amenities");
 	  const amenitiesListUl = $(document.createElement('ul'));
@@ -169,6 +169,8 @@ $(() => {
 	  descriptionDiv.after(amenitiesDiv);
 	});
 
+      const reviewsDiv = $(document.createElement('div'))
+        .addClass('reviews');
       $.ajax({
 	url: `http://0.0.0.0:5051/api/v1/places/${placeId}/reviews`,
 	type: 'GET',
@@ -176,8 +178,6 @@ $(() => {
       })
 	.done(function(reviews) {
 	  let numberOfReviews = reviews.length;
-	  const reviewsDiv = $(document.createElement('div'))
-            .addClass('reviews');
 	  const reviewsTitleH2 = $(document.createElement('h2'))
             .text(`${numberOfReviews} Reviews`);
 	  const reviewsListUl = $(document.createElement('ul'));
