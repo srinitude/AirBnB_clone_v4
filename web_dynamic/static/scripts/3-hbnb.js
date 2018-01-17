@@ -79,14 +79,22 @@ $(() => {
 
 	article.append(informationDiv);
 
-	const userDiv = $(document.createElement('div'))
-	  .addClass('user');
-	const content = `<b>Owner: </b>first_name last_name`;
-	const ownerP = $(document.createElement('p'))
-	  .html(content);
-	userDiv.append(ownerP);
+	const userId = place.user_id;
+	$.ajax({
+	  url: `http://0.0.0.0:5051/api/v1/users/${userId}`,
+	  type: 'GET',
+	  dataType: 'json'
+	})
+	  .done(function(data) {
+	    const userDiv = $(document.createElement('div'))
+	      .addClass('user');
+	    const content = `<b>Owner: </b>${data.first_name} ${data.last_name}`;
+	    const ownerP = $(document.createElement('p'))
+	      .html(content);
+	    userDiv.append(ownerP);
 
-	article.append(userDiv);
+	    article.append(userDiv);
+	  });
 
 	const descriptionDiv = $(document.createElement('div'))
 	  .addClass('description');
