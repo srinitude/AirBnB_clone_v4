@@ -28,6 +28,7 @@ $(() => {
     dataType: 'json'
   })
     .done(function(data) {
+      data.sort((a, b) => a.name - b.name);
       data.forEach(function(place) {
 	const article = $(document.createElement('article'));
 	const placeH2 = $(document.createElement('h2')).text(place.name)
