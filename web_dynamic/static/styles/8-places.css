@@ -31,6 +31,10 @@
     font-size: 30px;
     margin: 0 20% 0 0;
     align-self: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 80%;
 }
 
 .price_by_night {

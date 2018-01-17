@@ -29,7 +29,9 @@ $(() => {
     dataType: 'json'
   })
     .done(function(data) {
-      data.sort((a, b) => a.name - b.name);
+      data.sort((a, b) => {
+	return a.name.localeCompare(b.name)
+      });
       data.forEach(function(place) {
 	const article = $(document.createElement('article'));
 	const placeH2 = $(document.createElement('h2')).text(place.name)
@@ -79,7 +81,7 @@ $(() => {
 
 	const userDiv = $(document.createElement('div'))
 	  .addClass('user');
-	const content = `<b>Owner: </b>${place.user.first_name} ${place.user.last_name}`;
+	const content = `<b>Owner: </b>first_name last_name`;
 	const ownerP = $(document.createElement('p'))
 	  .html(content);
 	userDiv.append(ownerP);
