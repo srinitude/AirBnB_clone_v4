@@ -40,7 +40,7 @@ $(() => {
 	const priceByNightDiv = $(document.createElement('div'))
 	  .addClass('price_by_night');
 	const priceByNightP = $(document.createElement('p'))
-	  .text(`${place.price_by_night}`);
+	  .text(`$${place.price_by_night}`);
 	priceByNightDiv.append(priceByNightP);
 
 	article.append(priceByNightDiv);
