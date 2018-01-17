@@ -171,6 +171,7 @@ $(() => {
 
       const reviewsDiv = $(document.createElement('div'))
         .addClass('reviews');
+      const reviewsListUl = $(document.createElement('ul'));
       $.ajax({
 	url: `http://0.0.0.0:5051/api/v1/places/${placeId}/reviews`,
 	type: 'GET',
@@ -180,7 +181,6 @@ $(() => {
 	  let numberOfReviews = reviews.length;
 	  const reviewsTitleH2 = $(document.createElement('h2'))
             .text(`${numberOfReviews} Reviews`);
-	  const reviewsListUl = $(document.createElement('ul'));
 	  reviews.forEach(function(review) {
 	    const userId = review.user_id;
 	    $.ajax({
