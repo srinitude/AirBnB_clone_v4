@@ -1,6 +1,7 @@
 let amenitiesChecked = {};
 let statesChecked = {};
 let citiesChecked = {};
+let cityStateNames = [];
 
 $(() => {
   $(".amenities input[type=checkbox]").click(function () {
@@ -16,21 +17,25 @@ $(() => {
   $(".locations > ul > li > input[type=checkbox]").click(function () {
     if (this.checked) {
       statesChecked[this.dataset.id] = this.dataset.name;
+      cityStateNames.push(this.dataset.name);
     }
     else {
       delete statesChecked[this.dataset.id];
+      cityStateNames.splice(cityStateNames.indexOf(this.dataset.name), 1);
     }
-    $('.locations h4').text(Object.values(statesChecked).join(', '));
+    $('.locations h4').text(cityStateNames.join(', '));
   });
 
   $(".locations > ul > li > ul > li > input[type=checkbox]").click(function () {
     if (this.checked) {
       citiesChecked[this.dataset.id] = this.dataset.name;
+      cityStateNames.push(this.dataset.name);
     }
     else {
       delete citiesChecked[this.dataset.id];
+      cityStateNames.splice(cityStateNames.indexOf(this.dataset.name), 1);
     }
-    $('.locations h4').text(Object.values(citiesChecked).join(', '));
+    $('.locations h4').text(cityStateNames.join(', '));
   });
 
   $.ajax({

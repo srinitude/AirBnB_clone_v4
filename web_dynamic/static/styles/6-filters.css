@@ -40,6 +40,10 @@ input[type=checkbox] {
 .locations {
     border-right: 1px solid #DDDDDD;
 }
+.locations h2 {
+    display: inline-block;
+}
+
 .locations > h3, .amenities > h3 {
     font-weight: 600;
     margin: 12px 0 5px 0;
