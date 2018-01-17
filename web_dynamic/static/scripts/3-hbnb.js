@@ -25,6 +25,7 @@ $(() => {
     url: "http://0.0.0.0:5051/api/v1/places_search/",
     type: "POST",
     data: {},
+    contentType: 'application/json',
     dataType: 'json'
   })
     .done(function(data) {
