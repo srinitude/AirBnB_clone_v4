@@ -75,10 +75,11 @@ $(() => {
       return a.name.localeCompare(b.name);
     });
     $('section.places article').remove();
+// ------------ Get each place listing and insert into DOM ----------
     data.forEach(function (place) {
-      const article = $(document.createElement('article'));
+      const placeArticle = $(document.createElement('article'));
       const placeH2 = $(document.createElement('h2')).text(place.name);
-      article.append(placeH2);
+      placeArticle.append(placeH2);
 
       const priceByNightDiv = $(document.createElement('div'))
         .addClass('price_by_night');
@@ -86,7 +87,7 @@ $(() => {
         .text(`$${place.price_by_night}`);
       priceByNightDiv.append(priceByNightP);
 
-      article.append(priceByNightDiv);
+      placeArticle.append(priceByNightDiv);
 
       const informationDiv = $(document.createElement('div'))
         .addClass('information');
@@ -120,8 +121,9 @@ $(() => {
       numberBathroomsDiv.append(numberBathroomsP);
       informationDiv.append(numberBathroomsDiv);
 
-      article.append(informationDiv);
+      placeArticle.append(informationDiv);
 
+// ------------ Get owner's name to place before description ------------
       const userId = place.user_id;
       $.ajax({
         url: `http://0.0.0.0:5051/api/v1/users/${userId}`,
@@ -139,72 +141,91 @@ $(() => {
           informationDiv.after(userDiv);
         });
 
+// ------------ Description of place -------------------
       const descriptionDiv = $(document.createElement('div'))
         .addClass('description');
       const descriptionP = $(document.createElement('p'))
         .html(place.description);
       descriptionDiv.append(descriptionP);
 
-      article.append(descriptionDiv);
+      placeArticle.append(descriptionDiv);
 
+// ------------ Get list of amenities associated with place ----------
       const placeId = place.id;
       const amenitiesDiv = $(document.createElement('div'))
         .addClass('amenities');
       $.ajax({
-	url: `http://0.0.0.0:5051/api/v1/places/${placeId}/amenities`,
-	type: 'GET',
-	dataType: 'json'
+        url: `http://0.0.0.0:5051/api/v1/places/${placeId}/amenities`,
+        type: 'GET',
+        dataType: 'json'
       })
-	.done(function(data) {
-	  const amenitiesTitleH2 = $(document.createElement('h2'))
-            .text("Amenities");
-	  const amenitiesListUl = $(document.createElement('ul'));
-	  data.forEach(function(amenity) {
-	    const amenityLi = $(document.createElement('li'))
+        .done(function (data) {
+          const amenitiesTitleH2 = $(document.createElement('h2'))
+            .text('Amenities');
+          const amenitiesListUl = $(document.createElement('ul'));
+          data.forEach(function (amenity) {
+            const amenityLi = $(document.createElement('li'))
               .text(amenity.name);
-	    amenitiesListUl.append(amenityLi);
-	  });
-	  amenitiesDiv.append(amenitiesTitleH2);
-	  amenitiesDiv.append(amenitiesListUl);
-	  descriptionDiv.after(amenitiesDiv);
-	});
+            amenitiesListUl.append(amenityLi);
+          });
+          amenitiesDiv.append(amenitiesTitleH2);
+          amenitiesDiv.append(amenitiesListUl);
+          descriptionDiv.after(amenitiesDiv);
+	  amenitiesDiv.after(reviewsDiv);
+        });
 
+// ------------- Get all reviews associated with place ------------
       const reviewsDiv = $(document.createElement('div'))
         .addClass('reviews');
-      const reviewsListUl = $(document.createElement('ul'));
-      $.ajax({
-	url: `http://0.0.0.0:5051/api/v1/places/${placeId}/reviews`,
-	type: 'GET',
-	dataType: 'json'	
-      })
-	.done(function(reviews) {
-	  let numberOfReviews = reviews.length;
-	  const reviewsTitleH2 = $(document.createElement('h2'))
-            .text(`${numberOfReviews} Reviews`);
-	  reviews.forEach(function(review) {
-	    const userId = review.user_id;
-	    $.ajax({
-	      url: `http://0.0.0.0:5051/api/v1/users/${userId}`,
-	      type: 'GET',
-	      dataType: 'json'	
-	    })
-	      .done(function(user) {
-		const reviewLi = $(document.createElement('li'));
-		const reviewH3 = $(document.createElement('h3'))
-		  .text(`By ${user.first_name} ${user.last_name} on ${review.updated_at}`);
-		const reviewP = $(document.createElement('p'))
-		  .text(review.text);
-		reviewsListLi.append(reviewH3);
-		reviewsListLi.append(reviewP);		
-		reviewsListUl.append(reviewLi);
-	      });
-	  });
-	  reviewsDiv.append(reviewsTitleH2);
-	  reviewsDiv.append(reviewsListUl);
-	  amenitiesDiv.after(reviewsDiv);
-	});
+      const reviewsTitleH2 = $(document.createElement('h2'))
+	.text('Reviews');
+      const reviewsButton = $(document.createElement('button'));
+      const reviewsButtonText = $(document.createElement('span'))
+	.text('show');
+      reviewsButton.append(reviewsButtonText);
+      reviewsDiv.append(reviewsTitleH2);
+      reviewsDiv.append(reviewsButton);
+      $('section.places').append(placeArticle);
+      debugger;
 
-      $('section.places').append(article);
+      reviewsButton.click(function (e) {
+	if (reviewsButtonText.text() === 'hide') { // Fetch reviews
+	  reviewsButtonText.text('show');
+	  $(this).nextAll().remove();
+	} else if (reviewsButtonText.text() === 'show') { // Hide reviews
+	  reviewsButtonText.text('hide');
+	  const reviewsListUl = $(document.createElement('ul'));
+	  $.ajax({
+            url: `http://0.0.0.0:5051/api/v1/places/${placeId}/reviews`,
+            type: 'GET',
+            dataType: 'json'
+	  })
+            .done(function (reviews) {
+              let numberOfReviews = reviews.length;
+	      reviewsTitleH2.text(`${numberOfReviews} Reviews`);
+              reviews.forEach(function (review) {
+		// --------- Get name of user that wrote current review -------
+		const userId = review.user_id;
+		$.ajax({
+		  url: `http://0.0.0.0:5051/api/v1/users/${userId}`,
+		  type: 'GET',
+		  dataType: 'json'
+		})
+		  .done(function (user) {
+                    const reviewLi = $(document.createElement('li'));
+                    const reviewH3 = $(document.createElement('h3'))
+                      .text(`By ${user.first_name} ${user.last_name} on ${review.updated_at}`);
+                    const reviewP = $(document.createElement('p'))
+                      .text(review.text);
+                    reviewLi.append(reviewH3);
+                    reviewLi.append(reviewP);
+                    reviewsListUl.append(reviewLi);
+		  });
+              });
+              reviewsDiv.append(reviewsListUl);
+            });
+	}
+      });
     });
   }
 });
