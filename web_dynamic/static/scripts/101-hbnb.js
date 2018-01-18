@@ -67,7 +67,7 @@ const amenityIcons = {
   "Safety card": "fa-phone-square",
   "Iron": "fa-magic",
   "Dog(s)": "fa-paw",
-  "Hangers": "fa-house",
+  "Hangers": "fa-home",
   "Buzzer/wireless intercom": "fa-microphone",
   "Carbon monoxide detector": "fa-shield",
   "Indoor fireplace": "fa-fire",
@@ -241,11 +241,13 @@ $(() => {
             .text('Amenities');
           const amenitiesListUl = $(document.createElement('ul'));
           data.forEach(function (amenity) {
-            const amenityLi = $(document.createElement('li'))
-              .text(amenity.name);
+            const amenityLi = $(document.createElement('li'));
 	    const amenityIcon = $(document.createElement('i'))
 	      .addClass(`fa ${amenityIcons[amenity.name]}`);
+	    const amenitySpan = $(document.createElement('span'))
+	      .text(amenity.name);
 	    amenityLi.append(amenityIcon);
+	    amenityLi.append(amenitySpan);
             amenitiesListUl.append(amenityLi);
           });
           amenitiesDiv.append(amenitiesTitleH2);
