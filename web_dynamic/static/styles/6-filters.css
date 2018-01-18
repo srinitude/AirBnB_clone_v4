@@ -25,7 +25,7 @@ section.filters > button:hover {
     opacity: 0.9;
 }
 
-.locations, .amenities {
+section.filters > .locations, section.filters > .amenities {
     height: 100%;
     width: 25%;
     padding-left: 50px;

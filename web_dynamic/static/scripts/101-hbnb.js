@@ -186,11 +186,11 @@ $(() => {
       reviewsDiv.append(reviewsTitleH2);
       reviewsDiv.append(reviewsButton);
       $('section.places').append(placeArticle);
-      debugger;
 
       reviewsButton.click(function (e) {
 	if (reviewsButtonText.text() === 'hide') { // Fetch reviews
 	  reviewsButtonText.text('show');
+	  reviewsTitleH2.text('Reviews');
 	  $(this).nextAll().remove();
 	} else if (reviewsButtonText.text() === 'show') { // Hide reviews
 	  reviewsButtonText.text('hide');

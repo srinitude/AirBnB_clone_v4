@@ -1,0 +1,14 @@
+article > .amenities, article > .reviews {
+    width: 100%;
+    margin-top: 40px;
+}
+
+article > .reviews > h2, article > .amenities > h2 {
+    width: 100%;
+    border-bottom: 1px solid #DDDDDD;
+    padding-bottom: 0.25em;
+}
+
+article > .reviews > button {
+    width: 100%;
+}
