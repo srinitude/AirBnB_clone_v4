@@ -20,6 +20,7 @@ def get_places(city_id):
         places.append(place.to_dict())
     return jsonify(places)
 
+
 @app_views.route('/cities/<city_id>/places', methods=['POST'])
 def post_place(city_id):
     """create a new place"""
@@ -40,6 +41,7 @@ def post_place(city_id):
     place = Place(**kwargs)
     place.save()
     return make_response(jsonify(place.to_dict()), 201)
+
 
 @app_views.route('/places/<place_id>', methods=['GET'])
 def get_place(place_id):
@@ -75,6 +77,7 @@ def put_place(place_id):
             setattr(place, attr, val)
     place.save()
     return jsonify(place.to_dict())
+
 
 @app_views.route('/places_search', methods=['POST'])
 def places_search():
