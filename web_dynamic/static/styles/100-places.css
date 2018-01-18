@@ -12,8 +12,24 @@ article > .reviews > h2, article > .amenities > h2 {
     width: 100%;
     border-bottom: 1px solid #DDDDDD;
     padding-bottom: 0.25em;
+    font-size: 16px;
 }
 
 article > .reviews > button {
     width: 100%;
+}
+
+article > .reviews > h3 {
+    font-size: 14px;
+}
+
+article > .reviews > p {
+    font-size: 12px;
+}
+
+article > .amenities i {
+    width: 2em;
+    display: inline-flex;
+    justify-content: center;
+    padding-right: 10px;
 }
