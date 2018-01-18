@@ -3,6 +3,11 @@ article > .amenities, article > .reviews {
     margin-top: 40px;
 }
 
+article > .amenities ul, article > .reviews ul {
+    list-style: none;
+    padding: unset;
+}
+
 article > .reviews > h2, article > .amenities > h2 {
     width: 100%;
     border-bottom: 1px solid #DDDDDD;

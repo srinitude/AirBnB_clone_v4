@@ -3,6 +3,33 @@ let statesChecked = {};
 let citiesChecked = {};
 let cityStateNames = [];
 
+let monthOfYear = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'November',
+  'December'
+];
+
+function numStNdRdTh (n) {
+  switch (n % 10) {
+    case 1:
+      return 'st';
+    case 2:
+      return 'nd';
+    case 3:
+      return 'rd';
+    default:
+      return 'th';
+  }
+}
+
 $(() => {
   $('.amenities input[type=checkbox]').click(function () {
     if (this.checked) {
@@ -75,7 +102,7 @@ $(() => {
       return a.name.localeCompare(b.name);
     });
     $('section.places article').remove();
-// ------------ Get each place listing and insert into DOM ----------
+    // ------------ Get each place listing and insert into DOM ----------
     data.forEach(function (place) {
       const placeArticle = $(document.createElement('article'));
       const placeH2 = $(document.createElement('h2')).text(place.name);
@@ -123,7 +150,7 @@ $(() => {
 
       placeArticle.append(informationDiv);
 
-// ------------ Get owner's name to place before description ------------
+      // ------------ Get owner's name to place before description ------------
       const userId = place.user_id;
       $.ajax({
         url: `http://0.0.0.0:5051/api/v1/users/${userId}`,
@@ -141,7 +168,7 @@ $(() => {
           informationDiv.after(userDiv);
         });
 
-// ------------ Description of place -------------------
+      // ------------ Description of place -------------------
       const descriptionDiv = $(document.createElement('div'))
         .addClass('description');
       const descriptionP = $(document.createElement('p'))
@@ -150,7 +177,7 @@ $(() => {
 
       placeArticle.append(descriptionDiv);
 
-// ------------ Get list of amenities associated with place ----------
+      // ------------ Get list of amenities associated with place ----------
       const placeId = place.id;
       const amenitiesDiv = $(document.createElement('div'))
         .addClass('amenities');
@@ -171,60 +198,66 @@ $(() => {
           amenitiesDiv.append(amenitiesTitleH2);
           amenitiesDiv.append(amenitiesListUl);
           descriptionDiv.after(amenitiesDiv);
-	  amenitiesDiv.after(reviewsDiv);
+          amenitiesDiv.after(reviewsDiv);
         });
 
-// ------------- Get all reviews associated with place ------------
+      // ------------- Get all reviews associated with place ------------
       const reviewsDiv = $(document.createElement('div'))
         .addClass('reviews');
       const reviewsTitleH2 = $(document.createElement('h2'))
-	.text('Reviews');
+        .text('Reviews');
       const reviewsButton = $(document.createElement('button'));
       const reviewsButtonText = $(document.createElement('span'))
-	.text('show');
+        .text('show');
       reviewsButton.append(reviewsButtonText);
       reviewsDiv.append(reviewsTitleH2);
       reviewsDiv.append(reviewsButton);
       $('section.places').append(placeArticle);
 
       reviewsButton.click(function (e) {
-	if (reviewsButtonText.text() === 'hide') { // Fetch reviews
-	  reviewsButtonText.text('show');
-	  reviewsTitleH2.text('Reviews');
-	  $(this).nextAll().remove();
-	} else if (reviewsButtonText.text() === 'show') { // Hide reviews
-	  reviewsButtonText.text('hide');
-	  const reviewsListUl = $(document.createElement('ul'));
-	  $.ajax({
+        if (reviewsButtonText.text() === 'hide') { // Fetch reviews
+          reviewsButtonText.text('show');
+          reviewsTitleH2.text('Reviews');
+          $(this).nextAll().remove();
+        } else if (reviewsButtonText.text() === 'show') { // Hide reviews
+          reviewsButtonText.text('hide');
+          const reviewsListUl = $(document.createElement('ul'));
+          $.ajax({
             url: `http://0.0.0.0:5051/api/v1/places/${placeId}/reviews`,
             type: 'GET',
             dataType: 'json'
-	  })
+          })
             .done(function (reviews) {
               let numberOfReviews = reviews.length;
-	      reviewsTitleH2.text(`${numberOfReviews} Reviews`);
+              reviewsTitleH2.text(`${numberOfReviews} ${numberOfReviews === 1 ? 'Review' : 'Reviews'}`);
               reviews.forEach(function (review) {
-		// --------- Get name of user that wrote current review -------
-		const userId = review.user_id;
-		$.ajax({
-		  url: `http://0.0.0.0:5051/api/v1/users/${userId}`,
-		  type: 'GET',
-		  dataType: 'json'
-		})
-		  .done(function (user) {
+                // --------- Get name of user that wrote current review -------
+                const userId = review.user_id;
+                $.ajax({
+                  url: `http://0.0.0.0:5051/api/v1/users/${userId}`,
+                  type: 'GET',
+                  dataType: 'json'
+                })
+                  .done(function (user) {
+                    let updatedAt = new Date(review.updated_at);
+                    let date = updatedAt.getDate() +
+              numStNdRdTh(updatedAt.getDay());
+                    let month = monthOfYear[updatedAt.getMonth()];
+                    let year = updatedAt.getFullYear();
+                    let fullDate = `${date} ${month} ${year}`;
                     const reviewLi = $(document.createElement('li'));
                     const reviewH3 = $(document.createElement('h3'))
-                      .text(`By ${user.first_name} ${user.last_name} on ${review.updated_at}`);
+                      .text(`By ${user.first_name} ${user.last_name} on ${fullDate}`);
                     const reviewP = $(document.createElement('p'))
                       .text(review.text);
                     reviewLi.append(reviewH3);
                     reviewLi.append(reviewP);
                     reviewsListUl.append(reviewLi);
-		  });
+                  });
               });
               reviewsDiv.append(reviewsListUl);
             });
-	}
+        }
       });
     });
   }
