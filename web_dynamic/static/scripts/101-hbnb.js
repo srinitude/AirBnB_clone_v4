@@ -296,7 +296,7 @@ $(() => {
                   .done(function (user) {
                     let updatedAt = new Date(review.updated_at);
                     let date = updatedAt.getDate() +
-              numStNdRdTh(updatedAt.getDay());
+          numStNdRdTh(updatedAt.getDay());
                     let month = monthOfYear[updatedAt.getMonth()];
                     let year = updatedAt.getFullYear();
                     let fullDate = `${date} ${month} ${year}`;
@@ -304,7 +304,7 @@ $(() => {
                     const reviewH3 = $(document.createElement('h3'))
                       .text(`By ${user.first_name} ${user.last_name} on ${fullDate}`);
                     const reviewP = $(document.createElement('p'))
-                      .text(review.text);
+                      .html(review.text);
                     reviewLi.append(reviewH3);
                     reviewLi.append(reviewP);
                     reviewsListUl.append(reviewLi);
