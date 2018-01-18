@@ -245,6 +245,7 @@ $(() => {
               .text(amenity.name);
 	    const amenityIcon = $(document.createElement('i'))
 	      .addClass(`fa ${amenityIcons[amenity.name]}`);
+	    amenityLi.append(amenityIcon);
             amenitiesListUl.append(amenityLi);
           });
           amenitiesDiv.append(amenitiesTitleH2);
