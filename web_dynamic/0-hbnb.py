@@ -14,7 +14,7 @@ def display_hbnb():
     states = storage.all('State')
     amenities = storage.all('Amenity')
     places = storage.all('Place')
-    return render_template('100-hbnb.html',
+    return render_template('0-hbnb.html',
                            states=states,
                            amenities=amenities,
                            places=places,
