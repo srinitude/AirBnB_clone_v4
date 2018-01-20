@@ -10,7 +10,7 @@ $(() => {
   });
 
   $.ajax({
-    url: 'http://0.0.0.0:5051/api/v1/status/',
+    url: 'http://0.0.0.0:5001/api/v1/status/',
     type: 'GET',
     dataType: 'json'
   })
@@ -21,7 +21,7 @@ $(() => {
     });
 
   $.ajax({
-    url: 'http://0.0.0.0:5051/api/v1/places_search/',
+    url: 'http://0.0.0.0:5001/api/v1/places_search/',
     type: 'POST',
     data: JSON.stringify({}),
     contentType: 'application/json',
@@ -80,7 +80,7 @@ $(() => {
 
         const userId = place.user_id;
         $.ajax({
-          url: `http://0.0.0.0:5051/api/v1/users/${userId}`,
+          url: `http://0.0.0.0:5001/api/v1/users/${userId}`,
           type: 'GET',
           dataType: 'json'
         })

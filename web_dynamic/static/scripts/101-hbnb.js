@@ -113,7 +113,7 @@ $(() => {
   });
 
   $.ajax({
-    url: 'http://0.0.0.0:5051/api/v1/status/',
+    url: 'http://0.0.0.0:5001/api/v1/status/',
     type: 'GET',
     dataType: 'json'
   })
@@ -124,7 +124,7 @@ $(() => {
     });
 
   $.ajax({
-    url: 'http://0.0.0.0:5051/api/v1/places_search/',
+    url: 'http://0.0.0.0:5001/api/v1/places_search/',
     type: 'POST',
     data: JSON.stringify({}),
     contentType: 'application/json',
@@ -138,7 +138,7 @@ $(() => {
     reqObj.states = Object.keys(statesChecked);
     reqObj.cities = Object.keys(citiesChecked);
     $.ajax({
-      url: 'http://0.0.0.0:5051/api/v1/places_search/',
+      url: 'http://0.0.0.0:5001/api/v1/places_search/',
       type: 'POST',
       data: JSON.stringify(reqObj),
       contentType: 'application/json',
@@ -203,7 +203,7 @@ $(() => {
       // ------------ Get owner's name to place before description ------------
       const userId = place.user_id;
       $.ajax({
-        url: `http://0.0.0.0:5051/api/v1/users/${userId}`,
+        url: `http://0.0.0.0:5001/api/v1/users/${userId}`,
         type: 'GET',
         dataType: 'json'
       })
@@ -232,7 +232,7 @@ $(() => {
       const amenitiesDiv = $(document.createElement('div'))
         .addClass('amenities');
       $.ajax({
-        url: `http://0.0.0.0:5051/api/v1/places/${placeId}/amenities`,
+        url: `http://0.0.0.0:5001/api/v1/places/${placeId}/amenities`,
         type: 'GET',
         dataType: 'json'
       })
@@ -278,7 +278,7 @@ $(() => {
           reviewsButtonText.text('hide');
           const reviewsListUl = $(document.createElement('ul'));
           $.ajax({
-            url: `http://0.0.0.0:5051/api/v1/places/${placeId}/reviews`,
+            url: `http://0.0.0.0:5001/api/v1/places/${placeId}/reviews`,
             type: 'GET',
             dataType: 'json'
           })
@@ -289,7 +289,7 @@ $(() => {
                 // --------- Get name of user that wrote current review -------
                 const userId = review.user_id;
                 $.ajax({
-                  url: `http://0.0.0.0:5051/api/v1/users/${userId}`,
+                  url: `http://0.0.0.0:5001/api/v1/users/${userId}`,
                   type: 'GET',
                   dataType: 'json'
                 })
